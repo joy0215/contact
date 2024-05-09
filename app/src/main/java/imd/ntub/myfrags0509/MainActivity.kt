@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewPager: ViewPager2
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                 }
         }
         // 程式: https://github.com/leonjyentub/MyFrags0509
-        val viewPager = findViewById<ViewPager2>(R.id.viewpager)
+        viewPager = findViewById<ViewPager2>(R.id.viewpager)
         viewPager.adapter = ViewPagerAdater(this)
         findViewById<Button>(R.id.btn1).setOnClickListener {
             viewPager.currentItem = 0
@@ -34,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.btn3).setOnClickListener {
             viewPager.setCurrentItem(2, true)
+        }
+    }
+
+    override fun onBackPressed() {
+        if(viewPager.currentItem > 0){
+            viewPager.currentItem = viewPager.currentItem-1
+        }else{
+            super.onBackPressed()
         }
     }
 }
