@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         // 程式: https://github.com/leonjyentub/MyFrags0509
         viewPager = findViewById<ViewPager2>(R.id.viewpager)
         viewPager.adapter = ViewPagerAdater(this)
+        viewPager.setPageTransformer(Pager2_SpinnerTransformer())
         findViewById<Button>(R.id.btn1).setOnClickListener {
             viewPager.currentItem = 0
         }
