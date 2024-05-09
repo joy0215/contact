@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
                 when(position){
                     0-> FirstFragment.newInstance()
                     1-> SecondFragment.newInstance()
-                    2-> ThirdFragment.newInstance("","")
+                    2-> ThirdFragment.newInstance("今天天氣不錯啊")
                     else-> FirstFragment.newInstance()
                 }
         }
