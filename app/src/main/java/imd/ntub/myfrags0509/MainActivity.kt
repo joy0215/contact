@@ -1,49 +1,53 @@
 package imd.ntub.myfrags0509
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var viewPager: ViewPager2
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        class ViewPagerAdater(activity: MainActivity): FragmentStateAdapter(activity){
-            override fun getItemCount() = 3
+        viewPager = findViewById(R.id.view_pager)
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-            override fun createFragment(position: Int) =
-                when(position){
-                    0-> FirstFragment.newInstance()
-                    1-> SecondFragment.newInstance()
-                    2-> ThirdFragment.newInstance("今天天氣不錯啊")
-                    else-> FirstFragment.newInstance()
+        val adapter = ViewPagerAdapter(this)
+        viewPager.adapter = adapter
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_all_data -> viewPager.currentItem = 0
+                R.id.nav_add_edit -> viewPager.currentItem = 1
+                R.id.nav_team -> viewPager.currentItem = 2
+            }
+            true
+        }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> bottomNavigationView.selectedItemId = R.id.nav_all_data
+                    1 -> bottomNavigationView.selectedItemId = R.id.nav_add_edit
+                    2 -> bottomNavigationView.selectedItemId = R.id.nav_team
                 }
-        }
-        // 程式: https://github.com/leonjyentub/MyFrags0509
-        viewPager = findViewById<ViewPager2>(R.id.viewpager)
-        viewPager.adapter = ViewPagerAdater(this)
-        viewPager.setPageTransformer(Pager2_SpinnerTransformer())
-        findViewById<Button>(R.id.btn1).setOnClickListener {
+            }
+        })
+
+        // Set default fragment
+        if (savedInstanceState == null) {
             viewPager.currentItem = 0
-        }
-        findViewById<Button>(R.id.btn2).setOnClickListener {
-            viewPager.setCurrentItem(1, true)
-        }
-        findViewById<Button>(R.id.btn3).setOnClickListener {
-            viewPager.setCurrentItem(2, true)
         }
     }
 
-    override fun onBackPressed() {
-        if(viewPager.currentItem > 0){
-            viewPager.currentItem = viewPager.currentItem-1
-        }else{
-            super.onBackPressed()
-        }
+    fun startEditDialog(contact: Contact) {
+        val editDialog = EditContactDialogFragment(contact)
+        editDialog.show(supportFragmentManager, "EditContactDialogFragment")
     }
 }

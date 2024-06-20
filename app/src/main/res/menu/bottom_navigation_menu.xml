@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_all_data"
+        android:icon="@drawable/ic_all_data"
+        android:title="All Data" />
+
+    <item
+        android:id="@+id/nav_add_edit"
+        android:icon="@drawable/ic_edit"
+        android:title="Add/Edit" />
+
+    <item
+        android:id="@+id/nav_team"
+        android:icon="@drawable/ic_team"
+        android:title="Team" />
+
+</menu>
